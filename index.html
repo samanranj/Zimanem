@@ -239,11 +239,9 @@ $('learnedBtn').onclick = () => {
 
 $('reviewBtn').onclick = () => { idx = 0; render(); notify('مرور این مجموعه از ابتدا آغاز شد'); };
 
-// دکمه مثال‌های بیشتر حالا اختصاصی کار می‌کند
 $('examplesBtn').onclick = () => {
   const w = words[idx];
   if (w.extra) {
-    // اگر مثال دومی داشت، جایگزین مثال فعلی می‌شود
     $('example').innerHTML = w.extra;
     $('exampleFa').textContent = 'مثال بیشتر برای ' + w.fa;
     notify('مثال دوم نمایش داده شد');
