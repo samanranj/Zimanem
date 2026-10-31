@@ -1,4 +1,4 @@
-const CACHE = 'zimanem-v2';
+const CACHE = 'zimanem-v3';
 const ASSETS = [
   './',
   './index.html',
