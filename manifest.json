@@ -1,7 +1,7 @@
 {
   "name": "Zimanem — واژگان",
   "short_name": "Zimanem",
-  "description": "یادگیری واژگان انگلیسی با تلفظ و مثال",
+  "description": "یادگیری واژگان انگلیسی",
   "lang": "fa",
   "dir": "rtl",
   "start_url": "./index.html",
@@ -12,22 +12,21 @@
   "theme_color": "#087765",
   "icons": [
     {
-      "src": "icons/icon-192.png",
+      "src": "icons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/web-app-manifest-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     },
     {
-      "src": "icons/icon-512.png",
+      "src": "icons/web-app-manifest-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     }
   ]
 }
