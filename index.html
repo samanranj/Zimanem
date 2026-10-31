@@ -11,34 +11,19 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Zimanem">
 <style>
-/* ============ متغیرهای رنگی (حالت روشن و تاریک) ============ */
+/* ============ متغیرهای رنگی ============ */
 :root {
-  --bg-page: #f7f9f9;
-  --bg-card: #ffffff;
-  --text-main: #073f3c;
-  --text-muted: #6c8798;
-  --brand-green: #087765;
-  --brand-light: #edf7f4;
-  --border: #e4ebee;
-  --shadow: 0 14px 35px rgba(22,54,56,.075);
-  --overlay: rgba(255,255,255,0.85);
+  --bg-page: #f7f9f9; --bg-card: #ffffff; --text-main: #073f3c;
+  --text-muted: #6c8798; --brand-green: #087765; --brand-light: #edf7f4;
+  --border: #e4ebee; --shadow: 0 14px 35px rgba(22,54,56,.075);
 }
-
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-page: #0f1719;
-    --bg-card: #162225;
-    --text-main: #e2f0ec;
-    --text-muted: #7a969e;
-    --brand-green: #10b69d;
-    --brand-light: #1c3135;
-    --border: #223235;
-    --shadow: 0 14px 35px rgba(0,0,0,0.3);
-    --overlay: rgba(22, 34, 37, 0.85);
+    --bg-page: #0f1719; --bg-card: #162225; --text-main: #e2f0ec;
+    --text-muted: #7a969e; --brand-green: #10b69d; --brand-light: #1c3135;
+    --border: #223235; --shadow: 0 14px 35px rgba(0,0,0,0.3);
   }
 }
-
-/* ============ پایه ============ */
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { height: 100%; }
 body {
@@ -46,7 +31,6 @@ body {
   font-family: Tahoma, "Noto Sans Arabic", Arial, sans-serif;
   transition: background 0.4s ease, color 0.4s ease;
 }
-
 .app {
   width: min(100%, 520px); min-height: 100dvh; margin: auto;
   background: var(--bg-card);
@@ -59,172 +43,202 @@ body {
 /* ============ هدر ============ */
 .status { height: 20px; display: flex; justify-content: space-between; direction: ltr; font: 600 13px Arial; opacity: 0.7; }
 .top { display: grid; grid-template-columns: 42px 1fr 62px; align-items: center; text-align: center; }
-.back { border: 0; background: none; font-size: 30px; color: var(--text-main); cursor: pointer; transition: transform 0.2s; }
-.back:active { transform: scale(0.8); }
 .brand { font: 600 32px Georgia, serif; direction: ltr; letter-spacing: -0.5px; }
 .subtitle { color: var(--text-muted); margin-top: 4px; font-size: 15px; }
 .level { border-radius: 22px; background: var(--brand-light); padding: 8px 0; font-weight: 700; color: var(--brand-green); direction: ltr; font-size: 14px; }
 
-/* ============ نوار پیشرفت ============ */
+/* ============ صفحه اصلی (Home) ============ */
+.home-screen { display: flex; flex-direction: column; gap: 24px; flex: 1; justify-content: center; padding-bottom: 40px; }
+.welcome-box { text-align: center; padding: 20px; }
+.welcome-title { font-size: 28px; font-weight: 700; margin-bottom: 8px; color: var(--text-main); }
+.welcome-sub { font-size: 16px; color: var(--text-muted); line-height: 1.6; }
+
+/* کارت‌های آماری */
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.stat-card {
+  background: var(--bg-page); border: 1px solid var(--border); border-radius: 20px;
+  padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px;
+  transition: transform 0.2s;
+}
+.stat-card:active { transform: scale(0.97); }
+.stat-icon { font-size: 28px; color: var(--brand-green); }
+.stat-value { font-size: 24px; font-weight: 700; color: var(--text-main); }
+.stat-label { font-size: 13px; color: var(--text-muted); }
+
+/* دکمه اصلی */
+.start-btn {
+  background: var(--brand-green); color: white; border: 0; border-radius: 20px;
+  padding: 18px; font-size: 18px; font-weight: 700; font-family: inherit;
+  cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px;
+  box-shadow: 0 8px 25px rgba(8, 119, 101, 0.3); transition: transform 0.2s;
+  margin-top: 20px;
+}
+.start-btn:active { transform: scale(0.97); }
+
+/* ============ صفحه کارت‌ها (Learn) ============ */
+.learn-screen { display: none; flex-direction: column; gap: 16px; flex: 1; }
+.learn-screen.active { display: flex; }
+.home-screen.active { display: flex; }
+.home-screen { display: none; }
+
+.back-btn {
+  border: 0; background: none; font-size: 30px; color: var(--text-main); cursor: pointer;
+  transition: transform 0.2s; text-align: right; width: fit-content;
+}
+.back-btn:active { transform: scale(0.8); }
+
+/* نوار پیشرفت */
 .progress-row { display: flex; align-items: center; gap: 14px; direction: ltr; color: var(--text-muted); font-size: 13px; font-weight: 600; }
 .track { height: 6px; border-radius: 9px; background: var(--border); flex: 1; overflow: hidden; }
 .fill { height: 100%; width: 5%; background: var(--brand-green); border-radius: 9px; transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
 
-/* ============ کارت اصلی ============ */
+/* کارت واژه */
 .card {
   position: relative; border: 1px solid var(--border); border-radius: 28px;
   box-shadow: var(--shadow); padding: 20px 22px 16px; flex: 1;
-  display: flex; flex-direction: column; min-height: 600px;
-  background: var(--bg-card);
-  transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  display: flex; flex-direction: column; min-height: 500px;
+  background: var(--bg-card); transition: background 0.4s ease;
 }
-
-/* انیمیشن نرم برای تغییر محتوا */
-@keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+@keyframes fadeSlideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .content-anim { animation: fadeSlideUp 0.35s ease-out forwards; }
 
-.bookmark {
-  position: absolute; top: 22px; left: 22px; border: 0; background: var(--bg-card);
-  color: var(--brand-green); font-size: 26px; cursor: pointer; transition: transform 0.2s;
-}
+.bookmark { position: absolute; top: 22px; left: 22px; border: 0; background: var(--bg-card); color: var(--brand-green); font-size: 26px; cursor: pointer; transition: transform 0.2s; }
 .bookmark:active { transform: scale(0.8); }
-
-/* تصویر */
-.art { height: 260px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 10px; }
+.art { height: 220px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 10px; }
 .art img { width: 100%; height: 100%; object-fit: contain; transition: opacity 0.3s ease; }
-
-/* کلمه و صدا */
 .word-row { display: grid; grid-template-columns: 60px 1fr auto; align-items: center; gap: 12px; direction: ltr; }
-
-.sound {
-  width: 58px; height: 58px; border: 0; border-radius: 50%;
-  background: var(--brand-green); color: white; font-size: 26px;
-  cursor: pointer; display: grid; place-items: center;
-  transition: transform 0.2s, background 0.3s;
-  box-shadow: 0 4px 15px rgba(8, 119, 101, 0.3);
-}
+.sound { width: 58px; height: 58px; border: 0; border-radius: 50%; background: var(--brand-green); color: white; font-size: 26px; cursor: pointer; display: grid; place-items: center; transition: transform 0.2s, background 0.3s; box-shadow: 0 4px 15px rgba(8, 119, 101, 0.3); }
 .sound:active { transform: scale(0.85); }
 .sound.playing { animation: pulse 1s infinite alternate; }
-@keyframes pulse {
-  from { box-shadow: 0 0 0 0 rgba(8, 119, 101, 0.4); }
-  to { box-shadow: 0 0 0 15px rgba(8, 119, 101, 0); }
-}
-
+@keyframes pulse { from { box-shadow: 0 0 0 0 rgba(8, 119, 101, 0.4); } to { box-shadow: 0 0 0 15px rgba(8, 119, 101, 0); } }
 .word { font: 700 clamp(42px, 11vw, 58px) Georgia, serif; line-height: 1.05; color: var(--text-main); }
-
-/* لهجه‌ها */
 .accents { display: flex; gap: 6px; align-self: start; }
-.accent {
-  border: 1px solid var(--border); background: var(--bg-card); border-radius: 24px;
-  padding: 8px 11px; font-size: 12px; color: var(--text-muted); cursor: pointer;
-  white-space: nowrap; transition: all 0.2s;
-}
+.accent { border: 1px solid var(--border); background: var(--bg-card); border-radius: 24px; padding: 8px 11px; font-size: 12px; color: var(--text-muted); cursor: pointer; white-space: nowrap; transition: all 0.2s; }
 .accent.active { border-color: var(--brand-green); color: var(--brand-green); background: var(--brand-light); }
-
-/* تلفظ و ترجمه */
 .ipa { direction: ltr; text-align: left; margin: 6px 0 0 72px; font-size: 20px; color: var(--text-muted); font-family: Arial, sans-serif; }
 .translation { font-size: 32px; font-weight: 700; margin: 20px 0 10px 72px; text-align: left; color: var(--text-main); }
 .meta { display: flex; align-items: center; gap: 10px; margin-left: 72px; color: var(--text-muted); font-size: 13px; }
 .pill { background: var(--brand-light); padding: 6px 14px; border-radius: 22px; color: var(--brand-green); direction: ltr; font-weight: 600; }
-
-/* مثال */
 .example { border-top: 1px solid var(--border); margin-top: 20px; padding: 20px 0 10px; display: flex; gap: 14px; direction: ltr; }
 .example-mark { width: 5px; min-width: 5px; background: var(--brand-green); border-radius: 8px; opacity: 0.8; }
 .example-text { font: 22px/1.45 Georgia, serif; color: var(--text-main); text-align: left; }
 .example-text strong { color: var(--brand-green); font-weight: 700; }
 .example-fa { font: 15px/1.8 Tahoma, Arial, sans-serif; color: var(--text-muted); text-align: right; margin-top: 6px; direction: rtl; }
-
-/* ابزارها */
 .tools { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: auto; padding-top: 20px; }
 .tool { border: 0; background: transparent; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; gap: 8px; font: 13px Tahoma; cursor: pointer; padding: 8px 0; transition: color 0.2s; }
 .tool-icon { width: 50px; height: 50px; border-radius: 50%; background: var(--brand-light); color: var(--brand-green); display: grid; place-items: center; font-size: 22px; transition: all 0.3s; }
 .tool:active .tool-icon { transform: scale(0.9); }
 .tool.active .tool-icon { background: var(--brand-green); color: white; box-shadow: 0 4px 12px rgba(8, 119, 101, 0.3); }
-
-/* ناوبری پایین */
 .nav { display: grid; grid-template-columns: 64px 1fr 64px; align-items: center; margin-top: 0; direction: ltr; }
-.nav-btn {
-  width: 60px; height: 60px; border: 0; border-radius: 50%;
-  background: var(--brand-light); color: var(--brand-green); font-size: 30px;
-  cursor: pointer; display: grid; place-items: center; transition: transform 0.2s;
-}
+.nav-btn { width: 60px; height: 60px; border: 0; border-radius: 50%; background: var(--brand-light); color: var(--brand-green); font-size: 30px; cursor: pointer; display: grid; place-items: center; transition: transform 0.2s; }
 .nav-btn:active { transform: scale(0.85); }
 .dots { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; padding: 0 10px; }
 .dot { width: 8px; height: 8px; background: var(--border); border-radius: 50%; border: 0; padding: 0; cursor: pointer; transition: all 0.3s; }
 .dot.active { background: var(--brand-green); transform: scale(1.4); }
-
-/* پیام (Toast) */
-.toast {
-  min-height: 20px; text-align: center; color: var(--brand-green); font-size: 12px;
-  opacity: 0; transition: opacity 0.3s; font-weight: 600;
-}
+.toast { min-height: 20px; text-align: center; color: var(--brand-green); font-size: 12px; opacity: 0; transition: opacity 0.3s; font-weight: 600; }
 .toast.show { opacity: 1; }
-
-/* ریسپانسیو */
 @media (min-width: 520px) { body { padding: 18px 0; } .app { border-radius: 36px; box-shadow: 0 12px 45px rgba(0,0,0,0.1); min-height: calc(100dvh - 36px); } }
-@media (max-height: 800px) { .app { gap: 10px; padding-top: 12px; } .art { height: 200px; } .card { min-height: 0; padding: 15px 18px; } .translation { margin-top: 12px; } .example { margin-top: 14px; padding-top: 14px; } .nav-btn { width: 48px; height: 48px; } }
+@media (max-height: 800px) { .app { gap: 10px; padding-top: 12px; } .art { height: 180px; } .card { min-height: 0; padding: 15px 18px; } .translation { margin-top: 12px; } .example { margin-top: 14px; padding-top: 14px; } .nav-btn { width: 48px; height: 48px; } }
 </style>
 </head>
 <body>
 <main class="app">
   <div class="status"><span>9:41</span><span aria-hidden="true">▮▮▮　◉　▰</span></div>
 
-  <header class="top">
-    <button class="back" aria-label="بازگشت" onclick="notify('بازگشت به فهرست درس‌ها')">‹</button>
-    <div>
-      <div class="brand">Zimanem</div>
-      <div class="subtitle">واژگان</div>
-    </div>
-    <div class="level">A1</div>
-  </header>
+  <!-- ================= صفحه اصلی (Home) ================= -->
+  <div class="home-screen active" id="homeScreen">
+    <header class="top" style="grid-template-columns: 1fr; text-align: center;">
+      <div>
+        <div class="brand">Zimanem</div>
+        <div class="subtitle">واژگان</div>
+      </div>
+    </header>
 
-  <div class="progress-row">
-    <div class="track"><div class="fill" id="progressFill"></div></div>
-    <span id="progressText">1 / 20</span>
+    <div class="welcome-box">
+      <div class="welcome-title">سلام، خوش آمدی! 👋</div>
+      <div class="welcome-sub">آماده‌ای تا دایره لغاتت رو قوی‌تر کنی؟ درس امروز آماده است.</div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-icon">📚</span>
+        <span class="stat-value" id="homeTotalWords">20</span>
+        <span class="stat-label">کل واژه‌ها</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">⭐</span>
+        <span class="stat-value" id="homeLearnedCount">0</span>
+        <span class="stat-label">واژه‌های یادآوری</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">🔖</span>
+        <span class="stat-value" id="homeSavedCount">0</span>
+        <span class="stat-label">واژه‌های ذخیره‌شده</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">🔥</span>
+        <span class="stat-value">1</span>
+        <span class="stat-label">روز متوالی</span>
+      </div>
+    </div>
+
+    <button class="start-btn" id="startLessonBtn">
+      <span>شروع درس امروز</span>
+      <span>←</span>
+    </button>
   </div>
 
-  <section class="card" aria-label="کارت واژگان">
-    <button class="bookmark" id="bookmark" aria-label="ذخیره واژه">♧</button>
-
-    <div id="cardContent">
-      <div class="art"><img src="" alt="تصویر واژه" id="wordImage"></div>
-
-      <div class="word-row">
-        <button class="sound" id="mainAudio" aria-label="پخش تلفظ انگلیسی">◖))</button>
-        <div class="word" id="word"></div>
-        <div class="accents">
-          <button class="accent active" data-accent="us">🇺🇸 US</button>
-          <button class="accent" data-accent="uk">🇬🇧 UK</button>
-        </div>
+  <!-- ================= صفحه کارت‌ها (Learn) ================= -->
+  <div class="learn-screen" id="learnScreen">
+    <header class="top">
+      <button class="back-btn" onclick="toggleScreen('home')">‹</button>
+      <div>
+        <div class="brand">Zimanem</div>
+        <div class="subtitle">درس امروز</div>
       </div>
+      <div class="level">A1</div>
+    </header>
 
-      <div class="ipa" id="ipa"></div>
-      <div class="translation" id="translation"></div>
-      <div class="meta"><span class="pill" id="part"></span><span id="partFa"></span></div>
-
-      <div class="example">
-        <div class="example-mark"></div>
-        <div>
-          <div class="example-text" id="example"></div>
-          <div class="example-fa" id="exampleFa"></div>
-        </div>
-      </div>
+    <div class="progress-row">
+      <div class="track"><div class="fill" id="progressFill"></div></div>
+      <span id="progressText">1 / 20</span>
     </div>
 
-    <div class="tools">
-      <button class="tool" id="examplesBtn"><span class="tool-icon">▤</span><span>مثال بیشتر</span></button>
-      <button class="tool" id="reviewBtn"><span class="tool-icon">◉</span><span>مرور</span></button>
-      <button class="tool" id="learnedBtn"><span class="tool-icon">♧</span><span>یادآوری</span></button>
-    </div>
-  </section>
+    <section class="card" aria-label="کارت واژگان">
+      <button class="bookmark" id="bookmark" aria-label="ذخیره واژه">♧</button>
+      <div id="cardContent">
+        <div class="art"><img src="" alt="تصویر واژه" id="wordImage"></div>
+        <div class="word-row">
+          <button class="sound" id="mainAudio" aria-label="پخش تلفظ انگلیسی">◖))</button>
+          <div class="word" id="word"></div>
+          <div class="accents">
+            <button class="accent active" data-accent="us">🇺🇸 US</button>
+            <button class="accent" data-accent="uk">🇬🇧 UK</button>
+          </div>
+        </div>
+        <div class="ipa" id="ipa"></div>
+        <div class="translation" id="translation"></div>
+        <div class="meta"><span class="pill" id="part"></span><span id="partFa"></span></div>
+        <div class="example">
+          <div class="example-mark"></div>
+          <div>
+            <div class="example-text" id="example"></div>
+            <div class="example-fa" id="exampleFa"></div>
+          </div>
+        </div>
+      </div>
+      <div class="tools">
+        <button class="tool" id="examplesBtn"><span class="tool-icon">▤</span><span>مثال بیشتر</span></button>
+        <button class="tool" id="reviewBtn"><span class="tool-icon">◉</span><span>مرور</span></button>
+        <button class="tool" id="learnedBtn"><span class="tool-icon">♧</span><span>یادآوری</span></button>
+      </div>
+    </section>
 
-  <div class="nav">
-    <button class="nav-btn" id="prev" aria-label="واژه قبلی">‹</button>
-    <div class="dots" id="dots"></div>
-    <button class="nav-btn" id="next" aria-label="واژه بعدی">›</button>
+    <div class="nav">
+      <button class="nav-btn" id="prev" aria-label="واژه قبلی">‹</button>
+      <div class="dots" id="dots"></div>
+      <button class="nav-btn" id="next" aria-label="واژه بعدی">›</button>
+    </div>
   </div>
 
   <div class="toast" id="toast" aria-live="polite"></div>
@@ -273,8 +287,25 @@ function notify(s) {
   toastTimeout = setTimeout(() => t.classList.remove('show'), 2500);
 }
 
+function updateHomeStats() {
+  $('homeTotalWords').textContent = words.length;
+  $('homeSavedCount').textContent = saved.size;
+  $('homeLearnedCount').textContent = learned.size;
+}
+
+function toggleScreen(screen) {
+  if (screen === 'home') {
+    $('learnScreen').classList.remove('active');
+    $('homeScreen').classList.add('active');
+    updateHomeStats();
+  } else {
+    $('homeScreen').classList.remove('active');
+    $('learnScreen').classList.add('active');
+  }
+}
+
 function speak(text) {
-  if (!('speechSynthesis' in window)) { notify('پخش صوت در این مرورگر پشتیبانی نمی‌شود.'); return; }
+  if (!('speechSynthesis' in window)) { notify('پخش صوت پشتیبانی نمی‌شود.'); return; }
   speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
   u.lang = accent === 'us' ? 'en-US' : 'en-GB';
@@ -283,18 +314,12 @@ function speak(text) {
   btn.classList.add('playing');
   u.onend = () => btn.classList.remove('playing');
   speechSynthesis.speak(u);
-  notify('تلفظ ' + (accent === 'us' ? 'آمریکایی' : 'بریتانیایی') + ' در حال پخش است');
 }
 
 function render(animate = true) {
   const w = words[idx];
   const content = $('cardContent');
-  
-  if (animate) {
-    content.classList.remove('content-anim');
-    void content.offsetWidth; // Force reflow
-    content.classList.add('content-anim');
-  }
+  if (animate) { content.classList.remove('content-anim'); void content.offsetWidth; content.classList.add('content-anim'); }
 
   $('word').textContent = w.word;
   $('ipa').textContent = w.ipa;
@@ -315,12 +340,11 @@ function render(animate = true) {
   $('bookmark').style.color = isSaved ? 'var(--brand-green)' : 'var(--text-main)';
 
   $('dots').innerHTML = words.map((_, i) => `<button class="dot ${i === idx ? 'active' : ''}" aria-label="واژه ${i + 1}" data-index="${i}"></button>`).join('');
-  document.querySelectorAll('.dot').forEach(b => {
-    b.onclick = () => { idx = +b.dataset.index; render(); };
-  });
-
+  document.querySelectorAll('.dot').forEach(b => { b.onclick = () => { idx = +b.dataset.index; render(); }; });
   $('learnedBtn').classList.toggle('active', learned.has(w.word));
 }
+
+$('startLessonBtn').onclick = () => { toggleScreen('learn'); render(); };
 
 $('mainAudio').onclick = () => speak(words[idx].word);
 
@@ -328,7 +352,7 @@ document.querySelectorAll('.accent').forEach(b => {
   b.onclick = () => {
     accent = b.dataset.accent;
     document.querySelectorAll('.accent').forEach(x => x.classList.toggle('active', x === b));
-    notify('تلفظ ' + (accent === 'us' ? 'آمریکایی' : 'بریتانیایی') + ' انتخاب شد');
+    notify('لهجه ' + (accent === 'us' ? 'آمریکایی' : 'بریتانیایی') + ' انتخاب شد');
   };
 });
 
@@ -339,17 +363,17 @@ $('bookmark').onclick = () => {
   const w = words[idx].word;
   saved.has(w) ? saved.delete(w) : saved.add(w);
   persist(); render(false);
-  notify(saved.has(w) ? 'به واژه‌های ذخیره‌شده افزوده شد' : 'از ذخیره‌ها برداشته شد');
+  notify(saved.has(w) ? 'به ذخیره‌ها افزوده شد' : 'از ذخیره‌ها برداشته شد');
 };
 
 $('learnedBtn').onclick = () => {
   const w = words[idx].word;
   learned.has(w) ? learned.delete(w) : learned.add(w);
   persist(); render(false);
-  notify(learned.has(w) ? 'برای مرور بعدی علامت‌گذاری شد' : 'علامت یادآوری برداشته شد');
+  notify(learned.has(w) ? 'برای مرور علامت‌گذاری شد' : 'علامت برداشته شد');
 };
 
-$('reviewBtn').onclick = () => { idx = 0; render(); notify('مرور این مجموعه از ابتدا آغاز شد'); };
+$('reviewBtn').onclick = () => { idx = 0; render(); notify('مرور از ابتدا شروع شد'); };
 
 $('examplesBtn').onclick = () => {
   const w = words[idx];
@@ -362,6 +386,7 @@ $('examplesBtn').onclick = () => {
   }
 };
 
+updateHomeStats();
 render(false);
 
 if ('serviceWorker' in navigator) {
